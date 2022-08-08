@@ -6,6 +6,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.skiptraffi.data.Area
 import com.example.skiptraffi.data.Message
 import com.example.skiptraffi.data.api.ApiService
 import com.example.skiptraffi.util.Constants.DETAIL_CITY_KEY
@@ -17,15 +18,15 @@ class TrafficMessageViewModel: ViewModel() {
     var trafficMessage: List<Message>? by mutableStateOf(listOf())
     var errorMessage: String by mutableStateOf("")
 
-    fun getMessageList() {
+    fun getMessageList(cityName: String) {
         viewModelScope.launch {
             val apiService = ApiService.getInstance()
             try {
-                val messageList = apiService?.getTrafficMessage()
-                Log.d("TestHej", "Yay: ")
+                val messageList = apiService?.getTrafficMessage(cityName)
                 trafficMessage = messageList?.body()?.messages
             } catch (e: Exception) {
-                Log.d("TestHej", "errorMessage: " + e)
+                errorMessage = e.message.toString()
+                Log.d("TestHej", "errorMessage: " + errorMessage)
             }
         }
     }

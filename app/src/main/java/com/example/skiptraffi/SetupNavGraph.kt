@@ -1,7 +1,7 @@
 package com.example.skiptraffi
 
-import android.util.Log
 import androidx.compose.runtime.Composable
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -17,13 +17,14 @@ import com.example.skiptraffi.util.Constants.DETAIL_CITY_KEY
 fun SetupNavGraph(navController: NavHostController) {
     NavHost(navController = navController, startDestination = Screen.TrafficArea.route) {
         composable(route = Screen.TrafficArea.route) {
-            TrafficScreen(viewModel = TrafficViewModel(), navController = navController)
+            val viewModel = viewModel<TrafficViewModel>()
+            TrafficScreen(viewModel = viewModel, navController = navController)
         }
         composable(route = Screen.Detail.route, arguments = listOf(navArgument(DETAIL_CITY_KEY) {
             type = NavType.StringType
         })) {
-            Log.d("TestHej", "aa: " + it.arguments?.getString(DETAIL_CITY_KEY).toString())
-            DetailScreen(navController = navController, viewModel = TrafficMessageViewModel(), it.arguments?.getString(DETAIL_CITY_KEY))
+            val viewModel = viewModel<TrafficMessageViewModel>()
+            DetailScreen(navController = navController, viewModel = viewModel, it.arguments?.getString(DETAIL_CITY_KEY))
         }
     }
 }
