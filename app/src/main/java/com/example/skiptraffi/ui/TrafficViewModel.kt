@@ -18,6 +18,7 @@ class TrafficViewModel : ViewModel() {
     var coordinatesArea: String by mutableStateOf("")
     var errorMessage: String by mutableStateOf("")
 
+
     fun getAreaList() {
         viewModelScope.launch {
             val apiService = ApiService.getInstance()
@@ -48,9 +49,10 @@ class TrafficViewModel : ViewModel() {
         }
     }
 
+
     init {
-        Log.d("TestHej", "2: " + LONGITUDE_KEY)
-        Log.d("TestHej", "2: " + LATITUDE_KEY)
+
       //  getAreaListWithCoordinates(0.0, 0.0)
+
     }
 }

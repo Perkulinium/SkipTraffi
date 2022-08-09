@@ -1,5 +1,3 @@
-@file:OptIn(ExperimentalPermissionsApi::class)
-
 package com.example.skiptraffi.ui
 
 import android.util.Log
@@ -29,7 +27,9 @@ fun TrafficScreen(viewModel: TrafficViewModel, navController: NavController) {
     Scaffold(
         topBar = { MyTopAppBar(onClick = { viewModel.getAreaList() }) }
     ) {
-
+        Log.d("TestHej", "2: " + LONGITUDE_KEY)
+        Log.d("TestHej", "2: " + LATITUDE_KEY)
+        viewModel.coordinatesArea
         viewModel.trafficAreas?.let {
             TrafficAreaList(
                 trafficAreaList = it,
@@ -37,9 +37,12 @@ fun TrafficScreen(viewModel: TrafficViewModel, navController: NavController) {
                 viewModel
             )
         }
+
+
+
         LaunchedEffect(key1 = Unit) {
+            viewModel.getAreaListWithCoordinates(LONGITUDE_KEY!!, LATITUDE_KEY!!)
             viewModel.getAreaList()
-            viewModel.getAreaListWithCoordinates(LONGITUDE_KEY, LATITUDE_KEY)
         }
     }
 }
@@ -50,7 +53,7 @@ fun MyTopAppBar(onClick: () -> Unit) {
         title = { Text("My Application") },
         actions = {
             IconButton(onClick = { onClick.invoke() }) {
-                Icon(Icons.Filled.Refresh, "backIcon")
+                Icon(Icons.Filled.Refresh, null)
             }
         },
         backgroundColor = MaterialTheme.colors.primary,
@@ -69,10 +72,10 @@ fun TrafficAreaList(
     LazyColumn {
         item {
             CurrentPositionItem(onClick = {
-                   Log.d("TestHej", "1: " + LONGITUDE_KEY)
-                Log.d("TestHej", "1: " + LATITUDE_KEY)
-            //    Log.d("TestHej", "1: " + viewModel.coordinatesArea)
-                //   viewModel.getAreaListWithCoordinates(LONGITUDE_KEY, LATITUDE_KEY)
+                   Log.d("TestHej", "3: " + LONGITUDE_KEY)
+                Log.d("TestHej", "3: " + LATITUDE_KEY)
+
+
                 navController.navigate(route = Screen.Detail.passCity(viewModel.coordinatesArea))
 
             })

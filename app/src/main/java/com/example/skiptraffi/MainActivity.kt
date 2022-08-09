@@ -5,6 +5,7 @@ import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.annotation.RequiresApi
@@ -33,7 +34,6 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-
         try {
             if (ContextCompat.checkSelfPermission(
                     applicationContext,
@@ -54,24 +54,27 @@ class MainActivity : ComponentActivity() {
         fusedLocationClient.lastLocation
             .addOnSuccessListener { location: Location? ->
                 // Got last known location. In some rare situations this can be null.
-                //LONGITUDE_KEY = location?.longitude ?: 00.00
-                //LATITUDE_KEY = location?.latitude ?: 00.00
-                LONGITUDE_KEY = 60.0
-                LATITUDE_KEY = 18.0
+                LONGITUDE_KEY = location?.longitude ?: 0.00
+                LATITUDE_KEY = location?.latitude ?: 0.00
+
+                setContent {
+                    SkipTraffiTheme {
+                        // A surface container using the 'background' color from the theme
+                        Surface(
+                            modifier = Modifier.fillMaxSize(),
+                            color = MaterialTheme.colors.background
+                        ) {
+                            navController = rememberNavController()
+                            SetupNavGraph(navController = navController)
+                        }
+                    }
+                }
+
+                Log.d("TestHej", "1: " + LONGITUDE_KEY)
+                Log.d("TestHej", "1: " + LATITUDE_KEY)
             }
 
-        setContent {
-            SkipTraffiTheme {
-                // A surface container using the 'background' color from the theme
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colors.background
-                ) {
-                    navController = rememberNavController()
-                    SetupNavGraph(navController = navController)
-                }
-            }
-        }
+
     }
 }
 
