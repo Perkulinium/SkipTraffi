@@ -6,12 +6,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.skiptraffi.data.Area
 import com.example.skiptraffi.data.Message
 import com.example.skiptraffi.data.api.ApiService
-import com.example.skiptraffi.util.Constants.DETAIL_CITY_KEY
 import kotlinx.coroutines.launch
-import java.lang.Exception
 
 class TrafficMessageViewModel: ViewModel() {
 

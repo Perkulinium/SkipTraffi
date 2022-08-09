@@ -1,6 +1,5 @@
 package com.example.skiptraffi.ui
 
-import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -25,34 +24,23 @@ class TrafficViewModel : ViewModel() {
             try {
                 val areaList = apiService?.getTrafficAreas()
                 trafficAreas = areaList?.body()?.areas
-                Log.d("TestHej", "usch: " + trafficAreas)
             } catch (e: Exception) {
                 errorMessage = e.message.toString()
-                Log.d("TestHej", "errorMessage: " + errorMessage)
             }
         }
     }
 
-    fun getAreaListWithCoordinates(longitude: Double, latitude: Double) {
+    fun getAreaListWithCoordinates() {
         viewModelScope.launch {
             val apiService = ApiService.getInstance()
 
             try {
-                val coordinatesAreaList = apiService?.getTrafficAreaCoordinates(longitude, latitude)
+                val coordinatesAreaList = apiService?.getTrafficAreaCoordinates(LONGITUDE_KEY!!, LATITUDE_KEY!!)
                 coordinatesAreaList?.body()?.area
                 coordinatesArea = coordinatesAreaList?.body()?.area?.name.toString()
-
             } catch (e: Exception) {
                 errorMessage = e.message.toString()
-                Log.d("TestHej", "errorMessage: " + errorMessage)
             }
         }
-    }
-
-
-    init {
-
-      //  getAreaListWithCoordinates(0.0, 0.0)
-
     }
 }

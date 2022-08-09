@@ -1,6 +1,5 @@
 package com.example.skiptraffi.ui
 
-import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -17,9 +16,6 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.skiptraffi.Screen
 import com.example.skiptraffi.data.Area
-import com.example.skiptraffi.util.Constants.LATITUDE_KEY
-import com.example.skiptraffi.util.Constants.LONGITUDE_KEY
-import com.google.accompanist.permissions.ExperimentalPermissionsApi
 
 
 @Composable
@@ -27,8 +23,6 @@ fun TrafficScreen(viewModel: TrafficViewModel, navController: NavController) {
     Scaffold(
         topBar = { MyTopAppBar(onClick = { viewModel.getAreaList() }) }
     ) {
-        Log.d("TestHej", "2: " + LONGITUDE_KEY)
-        Log.d("TestHej", "2: " + LATITUDE_KEY)
         viewModel.coordinatesArea
         viewModel.trafficAreas?.let {
             TrafficAreaList(
@@ -37,20 +31,15 @@ fun TrafficScreen(viewModel: TrafficViewModel, navController: NavController) {
                 viewModel
             )
         }
-
-
-
-        LaunchedEffect(key1 = Unit) {
-            viewModel.getAreaListWithCoordinates(LONGITUDE_KEY!!, LATITUDE_KEY!!)
-            viewModel.getAreaList()
-        }
+        viewModel.getAreaListWithCoordinates()
+        viewModel.getAreaList()
     }
 }
 
 @Composable
 fun MyTopAppBar(onClick: () -> Unit) {
     TopAppBar(
-        title = { Text("My Application") },
+        title = { Text("SkipTraffic") },
         actions = {
             IconButton(onClick = { onClick.invoke() }) {
                 Icon(Icons.Filled.Refresh, null)
@@ -69,13 +58,11 @@ fun TrafficAreaList(
     viewModel: TrafficViewModel
 ) {
     var selectedIndex by remember { mutableStateOf(-1) }
+
+
     LazyColumn {
         item {
             CurrentPositionItem(onClick = {
-                   Log.d("TestHej", "3: " + LONGITUDE_KEY)
-                Log.d("TestHej", "3: " + LATITUDE_KEY)
-
-
                 navController.navigate(route = Screen.Detail.passCity(viewModel.coordinatesArea))
 
             })
@@ -162,3 +149,4 @@ fun TrafficAreaItem(area: Area, index: Int, selectedIndex: Int, onClick: (Int) -
         }
     }
 }
+
