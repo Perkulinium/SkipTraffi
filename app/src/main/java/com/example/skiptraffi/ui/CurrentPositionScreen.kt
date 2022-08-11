@@ -1,6 +1,5 @@
 package com.example.skiptraffi.ui
 
-import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -17,22 +16,30 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.skiptraffi.data.Message
 import com.example.skiptraffi.util.AppState
-import com.example.skiptraffi.util.Constants
 
 @Composable
-fun CurrentPositionScreen(navController: NavController, viewModel: CurrentPositionViewModel, cityName: String?, appState: AppState) {
+fun CurrentPositionScreen(
+    navController: NavController,
+    viewModel: CurrentPositionViewModel,
+    appState: AppState
+) {
     appState.setToolbarState(title = "Nuvarande position", hasBackButton = false)
     viewModel.getAreaListWithCoordinates()
     viewModel.getMessageList(viewModel.coordinatesCityName)
-    TrafficMessageList(trafficMessegeList = viewModel.trafficMessage ?: emptyList(), bottomBarHeight = appState.bottomBarHeight.value)
+    TrafficMessageList(
+        trafficMessegeList = viewModel.trafficMessage ?: emptyList(),
+        bottomBarHeight = appState.bottomBarHeight.value
+    )
 }
 
 
 @Composable
 fun TrafficMessageList(trafficMessegeList: List<Message>, bottomBarHeight: Dp) {
-    LazyColumn(contentPadding = PaddingValues(
-        bottom = bottomBarHeight
-    )) {
+    LazyColumn(
+        modifier = Modifier.fillMaxSize(), contentPadding = PaddingValues(
+            bottom = bottomBarHeight
+        )
+    ) {
         itemsIndexed(items = trafficMessegeList) { index, item ->
             TrafficMessageItem(trafficMessage = item)
         }

@@ -33,7 +33,7 @@ class AppState(
         this.hasBackButton.value = hasBackButton
         this.hasEndButton.value = hasEndButton
         this.hasToolbar.value = hasToolbar
-        if(onEndButtonClicked != null) {
+        if (onEndButtonClicked != null) {
             this.onEndButtonClicked = onEndButtonClicked
         }
     }
@@ -63,13 +63,14 @@ fun rememberAppState(
     hasEndButton,
     hasToolbar,
     bottomBarHeight
-) { AppState(
-    navController,
-    context,
-    mutableStateOf(title),
-    mutableStateOf(hasBackButton),
-    mutableStateOf(hasEndButton),
-    mutableStateOf(hasToolbar),
-    mutableStateOf(bottomBarHeight)
-)
+) {
+    AppState(
+        navController,
+        context,
+        mutableStateOf(title),
+        mutableStateOf(hasBackButton),
+        mutableStateOf(hasEndButton),
+        mutableStateOf(hasToolbar),
+        mutableStateOf(bottomBarHeight)
+    )
 }

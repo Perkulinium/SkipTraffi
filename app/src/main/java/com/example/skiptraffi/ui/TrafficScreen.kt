@@ -5,12 +5,12 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Refresh
+import androidx.compose.material.Card
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Surface
+import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -22,19 +22,23 @@ import com.example.skiptraffi.util.AppState
 
 @Composable
 fun TrafficScreen(appState: AppState, viewModel: TrafficViewModel, navController: NavController) {
-    appState.setToolbarState(title = "Städer", hasBackButton = false, hasEndButton = true, onEndButtonClicked = { viewModel.getAreaList() })
-        viewModel.coordinatesArea
-        viewModel.trafficAreas?.let {
-            TrafficAreaList(
-                trafficAreaList = it,
-                navController,
-                viewModel,
-                bottomBarHeight = appState.bottomBarHeight.value
-            )
-        }
-        viewModel.getAreaListWithCoordinates()
-        viewModel.getAreaList()
+    appState.setToolbarState(
+        title = "Städer",
+        hasBackButton = false,
+        hasEndButton = true,
+        onEndButtonClicked = { viewModel.getAreaList() })
+    viewModel.coordinatesArea
+    viewModel.trafficAreas?.let {
+        TrafficAreaList(
+            trafficAreaList = it,
+            navController,
+            viewModel,
+            bottomBarHeight = appState.bottomBarHeight.value
+        )
     }
+    viewModel.getAreaListWithCoordinates()
+    viewModel.getAreaList()
+}
 
 @Composable
 fun TrafficAreaList(
@@ -47,53 +51,10 @@ fun TrafficAreaList(
 
 
     LazyColumn(contentPadding = PaddingValues(bottom = bottomBarHeight)) {
-        item {
-            CurrentPositionItem(onClick = {
-                navController.navigate(route = Screen.Detail.passCity(viewModel.coordinatesArea))
-            })
-        }
-
         itemsIndexed(items = trafficAreaList) { index, item ->
             TrafficAreaItem(area = item, index, selectedIndex) { i ->
                 selectedIndex = i
                 navController.navigate(route = Screen.Detail.passCity(item.name))
-            }
-        }
-    }
-}
-
-
-@Composable
-fun CurrentPositionItem(onClick: () -> Unit) {
-    Card(
-        modifier = Modifier
-            .padding(8.dp, 4.dp)
-            .fillMaxWidth()
-            .height(110.dp)
-            .clickable { onClick.invoke() },
-        shape = RoundedCornerShape(8.dp), elevation = 4.dp
-    ) {
-        Surface() {
-
-            Row(
-                Modifier
-                    .padding(4.dp)
-                    .fillMaxSize()
-            ) {
-
-                Column(
-                    verticalArrangement = Arrangement.Center,
-                    modifier = Modifier
-                        .padding(4.dp)
-                        .fillMaxHeight()
-                        .weight(0.8f)
-                ) {
-                    Text(
-                        text = "Current Position",
-                        style = MaterialTheme.typography.subtitle1,
-                        fontWeight = FontWeight.Bold
-                    )
-                }
             }
         }
     }

@@ -10,7 +10,7 @@ import com.example.skiptraffi.data.Message
 import com.example.skiptraffi.data.api.ApiService
 import kotlinx.coroutines.launch
 
-class TrafficMessageViewModel: ViewModel() {
+class TrafficMessageViewModel : ViewModel() {
 
     var trafficMessage: List<Message>? by mutableStateOf(listOf())
     var errorMessage: String by mutableStateOf("")

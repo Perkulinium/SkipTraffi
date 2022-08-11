@@ -18,7 +18,6 @@ import androidx.compose.ui.Modifier
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
 import com.example.skiptraffi.Route.ROOT_ROUTE
 import com.example.skiptraffi.ui.components.SkipTraffiBottomNavigation
 import com.example.skiptraffi.ui.components.SkipTraffiTopBar
@@ -30,7 +29,6 @@ import com.example.skiptraffi.util.rememberAppState
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
-import okhttp3.Route
 
 class MainActivity : ComponentActivity() {
 

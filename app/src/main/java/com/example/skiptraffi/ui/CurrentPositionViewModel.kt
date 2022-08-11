@@ -12,8 +12,7 @@ import com.example.skiptraffi.util.Constants
 import kotlinx.coroutines.launch
 
 
-
-class CurrentPositionViewModel: ViewModel() {
+class CurrentPositionViewModel : ViewModel() {
     var trafficMessage: List<Message>? by mutableStateOf(listOf())
     var errorMessage: String by mutableStateOf("")
     var coordinatesCityName: String by mutableStateOf("")
@@ -23,7 +22,10 @@ class CurrentPositionViewModel: ViewModel() {
             val apiService = ApiService.getInstance()
 
             try {
-                val coordinatesAreaList = apiService?.getTrafficAreaCoordinates(Constants.LONGITUDE_KEY!!, Constants.LATITUDE_KEY!!)
+                val coordinatesAreaList = apiService?.getTrafficAreaCoordinates(
+                    Constants.LONGITUDE_KEY!!,
+                    Constants.LATITUDE_KEY!!
+                )
                 coordinatesAreaList?.body()?.area
                 coordinatesCityName = coordinatesAreaList?.body()?.area?.name.toString()
             } catch (e: Exception) {
@@ -31,7 +33,6 @@ class CurrentPositionViewModel: ViewModel() {
             }
         }
     }
-
 
 
     fun getMessageList(cityName: String) {

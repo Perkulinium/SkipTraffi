@@ -21,7 +21,6 @@ interface ApiService {
     ): Response<AreaDataClass>
 
 
-
     @GET("v2/traffic/messages?format=json&pagination=false")
     suspend fun getTrafficMessage(@Query("trafficareaname") cityName: String): Response<TrafficMessage>
 

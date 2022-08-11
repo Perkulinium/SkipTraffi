@@ -45,7 +45,7 @@ fun NavGraphBuilder.navGraph(appState: AppState) {
             )
         }
 
-        composable(route = Screen.GoogleMaps.route)  {
+        composable(route = Screen.GoogleMaps.route) {
             val viewModel = viewModel<GoogleMapsViewModel>()
             GoogleMapsScreen(
                 navController = appState.navController,
@@ -55,12 +55,11 @@ fun NavGraphBuilder.navGraph(appState: AppState) {
             )
         }
 
-        composable(route = Screen.CurrentPosition.route)  {
+        composable(route = Screen.CurrentPosition.route) {
             val viewModel = viewModel<CurrentPositionViewModel>()
             CurrentPositionScreen(
                 navController = appState.navController,
                 viewModel = viewModel,
-                it.arguments?.getString(DETAIL_CITY_KEY),
                 appState = appState
             )
         }

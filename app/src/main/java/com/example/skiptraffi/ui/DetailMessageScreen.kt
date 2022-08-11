@@ -1,6 +1,5 @@
 package com.example.skiptraffi.ui
 
-import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -31,22 +30,24 @@ fun DetailScreen(
         LaunchedEffect(key1 = true) {
             viewModel.getMessageList(cityName.toString())
         }
-        TrafficMessageList(trafficMessegeList = viewModel.trafficMessage ?: emptyList(), bottomBarHeight = appState.bottomBarHeight.value)
+        TrafficMessageList(
+            trafficMessegeList = viewModel.trafficMessage ?: emptyList(),
+            bottomBarHeight = appState.bottomBarHeight.value
+        )
     }
 }
-/*
 
 @Composable
 fun TrafficMessageList(trafficMessegeList: List<Message>) {
     LazyColumn {
         itemsIndexed(items = trafficMessegeList) { index, item ->
-            TrafficMessageItem(trafficMessage = item)
+            TrafficMessagesItem(trafficMessage = item)
         }
     }
 }
 
 @Composable
-fun TrafficMessageItem(trafficMessage: Message) {
+fun TrafficMessagesItem(trafficMessage: Message) {
     Card(
         modifier = Modifier
             .padding(8.dp, 4.dp)
@@ -99,4 +100,3 @@ fun TrafficMessageItem(trafficMessage: Message) {
         }
     }
 }
- */

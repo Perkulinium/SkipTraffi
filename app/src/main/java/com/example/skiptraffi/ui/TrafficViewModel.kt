@@ -34,7 +34,8 @@ class TrafficViewModel : ViewModel() {
             val apiService = ApiService.getInstance()
 
             try {
-                val coordinatesAreaList = apiService?.getTrafficAreaCoordinates(LONGITUDE_KEY!!, LATITUDE_KEY!!)
+                val coordinatesAreaList =
+                    apiService?.getTrafficAreaCoordinates(LONGITUDE_KEY!!, LATITUDE_KEY!!)
                 coordinatesAreaList?.body()?.area
                 coordinatesArea = coordinatesAreaList?.body()?.area?.name.toString()
             } catch (e: Exception) {
