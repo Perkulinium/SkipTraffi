@@ -12,59 +12,44 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.skiptraffi.Screen
 import com.example.skiptraffi.data.Area
+import com.example.skiptraffi.util.AppState
 
 
 @Composable
-fun TrafficScreen(viewModel: TrafficViewModel, navController: NavController) {
-    Scaffold(
-        topBar = { MyTopAppBar(onClick = { viewModel.getAreaList() }) }
-    ) {
+fun TrafficScreen(appState: AppState, viewModel: TrafficViewModel, navController: NavController) {
+    appState.setToolbarState(title = "Städer", hasBackButton = false, hasEndButton = true, onEndButtonClicked = { viewModel.getAreaList() })
         viewModel.coordinatesArea
         viewModel.trafficAreas?.let {
             TrafficAreaList(
                 trafficAreaList = it,
                 navController,
-                viewModel
+                viewModel,
+                bottomBarHeight = appState.bottomBarHeight.value
             )
         }
         viewModel.getAreaListWithCoordinates()
         viewModel.getAreaList()
     }
-}
-
-@Composable
-fun MyTopAppBar(onClick: () -> Unit) {
-    TopAppBar(
-        title = { Text("SkipTraffic") },
-        actions = {
-            IconButton(onClick = { onClick.invoke() }) {
-                Icon(Icons.Filled.Refresh, null)
-            }
-        },
-        backgroundColor = MaterialTheme.colors.primary,
-        contentColor = Color.White,
-        elevation = 10.dp
-    )
-}
 
 @Composable
 fun TrafficAreaList(
     trafficAreaList: List<Area>,
     navController: NavController,
-    viewModel: TrafficViewModel
+    viewModel: TrafficViewModel,
+    bottomBarHeight: Dp
 ) {
     var selectedIndex by remember { mutableStateOf(-1) }
 
 
-    LazyColumn {
+    LazyColumn(contentPadding = PaddingValues(bottom = bottomBarHeight)) {
         item {
             CurrentPositionItem(onClick = {
                 navController.navigate(route = Screen.Detail.passCity(viewModel.coordinatesArea))
-
             })
         }
 

@@ -17,7 +17,6 @@ class TrafficViewModel : ViewModel() {
     var coordinatesArea: String by mutableStateOf("")
     var errorMessage: String by mutableStateOf("")
 
-
     fun getAreaList() {
         viewModelScope.launch {
             val apiService = ApiService.getInstance()

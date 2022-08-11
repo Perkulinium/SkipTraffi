@@ -10,35 +10,29 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.skiptraffi.data.Message
 import com.example.skiptraffi.util.AppState
+import com.example.skiptraffi.util.Constants
 
 @Composable
-fun DetailScreen(
-    navController: NavController,
-    viewModel: TrafficMessageViewModel,
-    cityName: String?,
-    appState: AppState
-) {
-    appState.setToolbarState(title = cityName ?: "Stad", hasBackButton = true)
-
-    Surface(color = MaterialTheme.colors.background, modifier = Modifier.fillMaxSize()) {
-        LaunchedEffect(key1 = true) {
-            viewModel.getMessageList(cityName.toString())
-        }
-        TrafficMessageList(trafficMessegeList = viewModel.trafficMessage ?: emptyList(), bottomBarHeight = appState.bottomBarHeight.value)
-    }
+fun CurrentPositionScreen(navController: NavController, viewModel: CurrentPositionViewModel, cityName: String?, appState: AppState) {
+    appState.setToolbarState(title = "Nuvarande position", hasBackButton = false)
+    viewModel.getAreaListWithCoordinates()
+    viewModel.getMessageList(viewModel.coordinatesCityName)
+    TrafficMessageList(trafficMessegeList = viewModel.trafficMessage ?: emptyList(), bottomBarHeight = appState.bottomBarHeight.value)
 }
-/*
+
 
 @Composable
-fun TrafficMessageList(trafficMessegeList: List<Message>) {
-    LazyColumn {
+fun TrafficMessageList(trafficMessegeList: List<Message>, bottomBarHeight: Dp) {
+    LazyColumn(contentPadding = PaddingValues(
+        bottom = bottomBarHeight
+    )) {
         itemsIndexed(items = trafficMessegeList) { index, item ->
             TrafficMessageItem(trafficMessage = item)
         }
@@ -99,4 +93,3 @@ fun TrafficMessageItem(trafficMessage: Message) {
         }
     }
 }
- */
