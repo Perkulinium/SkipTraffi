@@ -22,7 +22,7 @@ sealed class Screen(
 
     object CurrentPosition : Screen(
         title = "Current Position",
-        icon = R.drawable.baseline_map_24,
+        icon = R.drawable.baseline_location_on_24,
         route = "current_position_screen"
     )
 

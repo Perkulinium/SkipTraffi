@@ -27,7 +27,7 @@ fun SkipTraffiTopBar(
         exit = shrinkVertically() + fadeOut(),
         enter = fadeIn() + expandVertically()
     ) {
-        TopAppBar(elevation = 0.dp) {
+        TopAppBar(elevation = 0.dp, backgroundColor = MaterialTheme.colors.background) {
             CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.high) {
                 Box(modifier = Modifier.fillMaxSize()) {
                     if (hasBackButton) {
@@ -43,7 +43,7 @@ fun SkipTraffiTopBar(
                     }
                     Text(
                         text = title.uppercase(),
-                        style = MaterialTheme.typography.h6,
+                        style = MaterialTheme.typography.subtitle1,
                         modifier = Modifier.align(Alignment.Center)
                     )
                     if (hasEndButton) {

@@ -19,7 +19,6 @@ import com.example.skiptraffi.Screen
 import com.example.skiptraffi.data.Area
 import com.example.skiptraffi.util.AppState
 
-
 @Composable
 fun TrafficScreen(appState: AppState, viewModel: TrafficViewModel, navController: NavController) {
     appState.setToolbarState(

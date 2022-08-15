@@ -95,7 +95,7 @@ fun topAppBar() {
         appState.setBottomPadding(it.calculateBottomPadding())
         AnimatedNavHost(
             navController = appState.navController,
-            startDestination = com.example.skiptraffi.Route.HOME_SCREEN,
+            startDestination = Route.HOME_SCREEN,
             route = ROOT_ROUTE
         ) {
             navGraph(appState)

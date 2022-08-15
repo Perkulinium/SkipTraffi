@@ -66,6 +66,9 @@ dependencies {
     // Camera permissions
     implementation "com.google.accompanist:accompanist-permissions:0.25.0"
 
+    // In-app review
+    implementation 'com.google.android.play:review-ktx:2.0.0'
+
     // Compose Destination Annotations
     implementation "io.github.dilrajsingh1997:compose-annotation:1.0.2" // https://github.com/raamcosta/compose-destinations
     ksp "io.github.dilrajsingh1997:compose-annotation-processor:1.0.5" // https://github.com/raamcosta/compose-destinations
