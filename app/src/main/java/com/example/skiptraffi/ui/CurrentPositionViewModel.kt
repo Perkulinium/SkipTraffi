@@ -8,12 +8,30 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.skiptraffi.data.Message
 import com.example.skiptraffi.data.api.ApiService
+import com.example.skiptraffi.util.Constants
 import kotlinx.coroutines.launch
 
-class TrafficMessageViewModel : ViewModel() {
-
+class CurrentPositionViewModel : ViewModel() {
     var trafficMessage: List<Message>? by mutableStateOf(listOf())
     var errorMessage: String by mutableStateOf("")
+    var coordinatesCityName: String by mutableStateOf("")
+
+    fun getAreaListWithCoordinates() {
+        viewModelScope.launch {
+            val apiService = ApiService.getInstance()
+
+            try {
+                val coordinatesAreaList = apiService?.getTrafficAreaCoordinates(
+                    Constants.LONGITUDE_KEY ?: 0.0,
+                    Constants.LATITUDE_KEY ?: 0.0
+                )
+                coordinatesAreaList?.body()?.area
+                coordinatesCityName = coordinatesAreaList?.body()?.area?.name.toString()
+            } catch (e: Exception) {
+                errorMessage = e.message.toString()
+            }
+        }
+    }
 
     fun getMessageList(cityName: String) {
         viewModelScope.launch {
