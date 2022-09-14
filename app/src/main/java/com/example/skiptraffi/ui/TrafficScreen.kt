@@ -12,12 +12,15 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.skiptraffi.Screen
 import com.example.skiptraffi.data.Area
+import com.example.skiptraffi.ui.components.SearchView
 import com.example.skiptraffi.util.AppState
+import java.util.*
 
 @Composable
 fun TrafficScreen(appState: AppState, viewModel: TrafficViewModel, navController: NavController) {
@@ -26,31 +29,55 @@ fun TrafficScreen(appState: AppState, viewModel: TrafficViewModel, navController
         hasBackButton = false,
         hasEndButton = true,
         onEndButtonClicked = { viewModel.getAreaList() })
-    viewModel.coordinatesArea
-    viewModel.trafficAreas?.let {
-        TrafficAreaList(
-            trafficAreaList = it,
-            navController,
-            viewModel,
-            bottomBarHeight = appState.bottomBarHeight.value
-        )
+
+
+    val textState = remember { mutableStateOf(TextFieldValue("")) }
+
+    Column(modifier = Modifier.fillMaxSize()) {
+        SearchView(state = textState)
+
+        viewModel.coordinatesArea
+        viewModel.trafficAreas?.let {
+            TrafficAreaList(
+                trafficAreaList = it,
+                navController,
+                bottomBarHeight = appState.bottomBarHeight.value,
+                textState
+            )
+        }
+        viewModel.getAreaListWithCoordinates()
+        viewModel.getAreaList()
+
     }
-    viewModel.getAreaListWithCoordinates()
-    viewModel.getAreaList()
 }
 
 @Composable
 fun TrafficAreaList(
     trafficAreaList: List<Area>,
     navController: NavController,
-    viewModel: TrafficViewModel,
-    bottomBarHeight: Dp
+    bottomBarHeight: Dp,
+    state: MutableState<TextFieldValue>
 ) {
     var selectedIndex by remember { mutableStateOf(-1) }
-
+    var filteredAreas: List<Area>
 
     LazyColumn(contentPadding = PaddingValues(bottom = bottomBarHeight)) {
-        itemsIndexed(items = trafficAreaList) { index, item ->
+
+        val searchedText = state.value.text
+        filteredAreas = if (searchedText.isEmpty()) {
+            trafficAreaList
+        } else {
+            val resultList = ArrayList<Area>()
+            for (area in trafficAreaList) {
+                if (area.name.contains(searchedText.replaceFirstChar { it.titlecase(Locale.getDefault()) })
+                ) {
+                    resultList.add(area)
+                }
+            }
+            resultList
+        }
+
+        itemsIndexed(items = filteredAreas) { index, item ->
             TrafficAreaItem(area = item, index, selectedIndex) { i ->
                 selectedIndex = i
                 navController.navigate(route = Screen.Detail.passCity(item.name))
@@ -70,7 +97,6 @@ fun TrafficAreaItem(area: Area, index: Int, selectedIndex: Int, onClick: (Int) -
         shape = RoundedCornerShape(8.dp), elevation = 4.dp
     ) {
         Surface() {
-
             Row(
                 Modifier
                     .padding(4.dp)
